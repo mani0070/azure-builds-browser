@@ -1,0 +1,14 @@
+﻿@model AzureBuildsBrowser.Models.BuildModel
+@{
+    ViewData["Title"] = "Tags";
+}
+<h3>Tags</h3>
+
+<div>
+    @foreach (var m in Model.Tags)
+    {
+        <div>
+            <a href="/t/@m">@m</a>
+        </div>
+    }
+</div>

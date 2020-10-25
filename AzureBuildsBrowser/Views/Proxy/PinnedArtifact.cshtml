@@ -1,0 +1,18 @@
+﻿@model AzureBuildsBrowser.Models.PinnedArtifactModel
+
+@{
+    ViewBag.Title = "Artifact Content";
+}
+
+<h3>Content of <b>@Model.Artifact</b> for build <b>@Model.BuildId</b></h3>
+
+<nav>
+    <a href="/b/@Model.BuildId">Go up</a>
+</nav>
+
+@foreach (var file in Model.Zip.Entries)
+{
+    <div>
+        <a href="/b/@Model.BuildId/a/@Model.Artifact/f/@Uri.EscapeDataString(file.FullName)">@file.FullName</a>
+    </div>
+}

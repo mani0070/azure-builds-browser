@@ -1,0 +1,21 @@
+﻿@model AzureBuildsBrowser.Models.PinnedArtifactsModel
+
+@{
+    ViewBag.Title = "Artifacts";
+}
+
+<h3>Artifacts of build <b>@Model.BuildId</b></h3>
+
+<nav>
+    <a href="/">Go home</a>
+</nav>
+
+<table>
+    @foreach (var a in Model.Artifacts)
+    {
+        <tr>
+            <td><a href="/b/@(Model.BuildId)/a/@(a.Name)">@a.Name</a></td>
+            <td><a href="@a.Resource.DownloadUrl">Download</a></td>
+        </tr>
+    }
+</table>

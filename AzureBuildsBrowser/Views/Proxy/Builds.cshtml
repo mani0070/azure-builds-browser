@@ -1,0 +1,26 @@
+﻿@model AzureBuildsBrowser.Models.BuildsModel
+
+@{
+    ViewData["Title"] = "Builds";
+}
+
+<h3>Builds with <b>@Model.Tag</b> tag</h3>
+
+<nav>
+    <a href="/">Go up</a>
+</nav>
+
+<table>
+    @foreach (var b in Model.Builds)
+    {
+        <tr>
+            <td>@b.Repository.Name</td>
+            <td>@b.StartTime.ToString("g")</td>
+            <td>@b.FinishTime.Subtract(b.StartTime).ToString("mm\\:ss")</td>
+            <td>@b.Result</td>
+            <td><a href="/t/@(Model.Tag)/r/@(b.Repository.Name)">Artifacts</a></td>
+            <td><a href="/b/@b.Id" target="_blank">Pinned #@b.Id</a></td>
+            <td><a href="@b.Links.Web.Href" target="_blank">Azure Devops</a></td>
+        </tr>
+    }
+</table>
