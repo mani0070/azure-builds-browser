@@ -21,10 +21,14 @@ namespace AzureBuildsBrowser.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> Tags()
+        public async Task<IActionResult> Root()
         {
-            var tags = await _client.GetBuildTags();
-            return View(new BuildModel { Tags = tags });
+            var tagsTask = _client.GetBuildTags();
+            var buildTask = _client.FindLastBuilds(20);
+            var tags = await tagsTask;
+            var lastBuilds = await buildTask;
+
+            return View(new RootModel {Tags = tags, LastBuilds = lastBuilds});
         }
 
         [Route("t/{tag}")]

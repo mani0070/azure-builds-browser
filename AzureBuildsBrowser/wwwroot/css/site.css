@@ -18,12 +18,12 @@ nav {
     margin-bottom: 1em;
 }
 
-td {
+td, th {
     border-left: 1px solid gray;
     padding-left: 0.2em;
     padding-right: 0.2em;
 }
 
-td:first-of-type {
-    border-left: 0;
-}
+    td:first-of-type, th:first-of-type {
+        border-left: 0;
+    }

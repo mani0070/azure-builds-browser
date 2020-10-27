@@ -38,6 +38,12 @@ namespace AzureBuildsBrowser.Clients
             return collection.Value;
         }
 
+        public async Task<BuildDetails[]> FindLastBuilds(int topCount)
+        {
+            var collection = await _client.GetFromJsonAsync<Collection<BuildDetails>>($"build/builds?api-version=6.0&queryOrder=startTimeDescending&statusFilter=completed&$top={topCount}");
+            return collection.Value;
+        }
+
         public async Task<ArtifactDetails[]> FindArtifacts(int buildId)
         {
             var collection = await _client.GetFromJsonAsync<Collection<ArtifactDetails>>($"build/builds/{buildId}/artifacts?api-version=6.0");

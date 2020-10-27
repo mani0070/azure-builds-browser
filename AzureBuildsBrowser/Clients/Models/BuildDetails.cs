@@ -10,6 +10,7 @@ namespace AzureBuildsBrowser.Clients.Models
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset FinishTime { get; set; }
         public string Result { get; set; }
+        public string SourceBranch { get; set; }
         [JsonPropertyName("_links")]
         public Links Links { get; set; }
     }

@@ -1,14 +1,19 @@
-﻿@model AzureBuildsBrowser.Models.BuildsModel
-
+﻿@model AzureBuildsBrowser.Models.RootModel
 @{
-    ViewData["Title"] = "Builds";
+    ViewData["Title"] = "Root";
 }
+<h3>Tags</h3>
 
-<h3>Builds with <b>@Model.Tag</b> tag</h3>
+<div>
+    @foreach (var m in Model.Tags)
+    {
+        <div>
+            <a href="/t/@m">@m</a>
+        </div>
+    }
+</div>
 
-<nav>
-    <a href="/">Go up</a>
-</nav>
+<h3>Last builds</h3>
 
 <table>
     <tr>
@@ -19,9 +24,8 @@
         <th>Status</th>
         <th></th>
         <th></th>
-        <th></th>
     </tr>
-    @foreach (var b in Model.Builds)
+    @foreach (var b in Model.LastBuilds)
     {
         <tr>
             <td>@b.Repository.Name</td>
@@ -29,7 +33,6 @@
             <td>@b.StartTime.ToString("g")</td>
             <td>@b.FinishTime.Subtract(b.StartTime).ToString("mm\\:ss")</td>
             <td>@b.Result</td>
-            <td><a href="/t/@(Model.Tag)/r/@(b.Repository.Name)">Artifacts</a></td>
             <td><a href="/b/@b.Id" target="_blank">Pinned #@b.Id</a></td>
             <td><a href="@b.Links.Web.Href" target="_blank">Azure Devops</a></td>
         </tr>
