@@ -1,0 +1,29 @@
+name: Docker image build and push to public dockerhub 
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Get the version
+      id: vars
+      run: echo ::set-output name=tag::$(echo ${GITHUB_REF:11})
+    - name: Build the tagged Docker image
+      run: docker build . --file Dockerfile --tag mani0070/azdevopsbuildsbrowser:${{steps.vars.outputs.tag}}
+    - name: Push the tagged Docker image
+      run: docker push mani0070/azdevopsbuildsbrowser:${{steps.vars.outputs.tag}}
+    - name: Build the Docker image latest tag
+      run: docker build . --file Dockerfile --tag mani0070/azdevopsbuildsbrowser:latest
+    - name: Push the latest Docker image
+      run: docker push mani0070/azdevopsbuildsbrowser:latest
