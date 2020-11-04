@@ -72,6 +72,17 @@ namespace AzureBuildsBrowser
                     pattern: "{controller}");
             });
 
+            ConfigureForwardedHeaders(app);
+            app.UsePathBase(Configuration.GetValue<string>("PathBase"));
+            app.Use(async (context, next) =>
+            {
+                context.Request.Scheme = "https";
+                await next.Invoke();
+            });
+        }
+
+        private static void ConfigureForwardedHeaders(IApplicationBuilder app)
+        {
             var options = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -79,7 +90,6 @@ namespace AzureBuildsBrowser
             options.KnownNetworks.Clear();
             options.KnownProxies.Clear();
             app.UseForwardedHeaders(options);
-            app.UsePathBase(Configuration.GetValue<string>("PathBase"));
         }
     }
 }
