@@ -37,7 +37,24 @@ namespace AzureBuildsBrowser
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+
             services.AddRazorPages().AddMicrosoftIdentityUI();
+            services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
+            options =>
+            {
+                var redirectToIdpHandler = options.Events.OnRedirectToIdentityProvider;
+                options.Events.OnRedirectToIdentityProvider = async context =>
+                {
+                    // Call what Microsoft.Identity.Web is doing
+                    await redirectToIdpHandler(context);
+
+                    // Override the redirect URI to be what you want
+                    if (context.ProtocolMessage?.RedirectUri?.StartsWith("http://") ?? false)
+                    {
+                        context.ProtocolMessage.RedirectUri = context.ProtocolMessage.RedirectUri.Replace("http://", "https://");
+                    }
+                };
+            });
             services.Configure<DevopClientOptions>(Configuration.GetSection("DevopsClient"));
             services.AddHttpClient<IDevopsClient, DevopsClient>();
             services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
