@@ -79,6 +79,7 @@ namespace AzureBuildsBrowser
             options.KnownNetworks.Clear();
             options.KnownProxies.Clear();
             app.UseForwardedHeaders(options);
+            app.UsePathBase(Configuration.GetValue<string>("PathBase"));
         }
     }
 }
