@@ -39,22 +39,22 @@ namespace AzureBuildsBrowser
             });
 
             services.AddRazorPages().AddMicrosoftIdentityUI();
-            services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
-            options =>
-            {
-                var redirectToIdpHandler = options.Events.OnRedirectToIdentityProvider;
-                options.Events.OnRedirectToIdentityProvider = async context =>
-                {
-                    // Call what Microsoft.Identity.Web is doing
-                    await redirectToIdpHandler(context);
+            //services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
+            // options =>
+            // {
+            //     var redirectToIdpHandler = options.Events.OnRedirectToIdentityProvider;
+            //     options.Events.OnRedirectToIdentityProvider = async context =>
+            //     {
+            //         // Call what Microsoft.Identity.Web is doing
+            //         await redirectToIdpHandler(context);
 
-                    // Override the redirect URI to be what you want
-                    if (context.ProtocolMessage?.RedirectUri?.StartsWith("http://") ?? false)
-                    {
-                        context.ProtocolMessage.RedirectUri = context.ProtocolMessage.RedirectUri.Replace("http://", "https://");
-                    }
-                };
-            });
+            //         // Override the redirect URI to be what you want
+            //         if (context.ProtocolMessage?.RedirectUri?.StartsWith("http://") ?? false)
+            //         {
+            //             context.ProtocolMessage.RedirectUri = context.ProtocolMessage.RedirectUri.Replace("http://", "https://");
+            //         }
+            //     };
+            // });
             services.Configure<DevopClientOptions>(Configuration.GetSection("DevopsClient"));
             services.AddHttpClient<IDevopsClient, DevopsClient>();
             services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
@@ -66,16 +66,16 @@ namespace AzureBuildsBrowser
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseForwardedHeaders();
+              //  app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseForwardedHeaders();
+                // app.UseForwardedHeaders();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -89,24 +89,24 @@ namespace AzureBuildsBrowser
                     pattern: "{controller}");
             });
 
-            ConfigureForwardedHeaders(app);
-            app.UsePathBase(Configuration.GetValue<string>("PathBase"));
-            app.Use(async (context, next) =>
-            {
-                context.Request.Scheme = "https";
-                await next.Invoke();
-            });
+           // ConfigureForwardedHeaders(app);
+            // app.UsePathBase(Configuration.GetValue<string>("PathBase"));
+            // app.Use(async (context, next) =>
+            // {
+            //     context.Request.Scheme = "https";
+            //     await next.Invoke();
+            // });
         }
 
-        private static void ConfigureForwardedHeaders(IApplicationBuilder app)
-        {
-            var options = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            };
-            options.KnownNetworks.Clear();
-            options.KnownProxies.Clear();
-            app.UseForwardedHeaders(options);
-        }
+        // private static void ConfigureForwardedHeaders(IApplicationBuilder app)
+        // {
+        //     var options = new ForwardedHeadersOptions
+        //     {
+        //         ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        //     };
+        //     options.KnownNetworks.Clear();
+        //     options.KnownProxies.Clear();
+        //     app.UseForwardedHeaders(options);
+        // }
     }
 }
