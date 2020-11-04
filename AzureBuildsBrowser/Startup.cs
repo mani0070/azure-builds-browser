@@ -71,10 +71,14 @@ namespace AzureBuildsBrowser
                     name: "default",
                     pattern: "{controller}");
             });
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+
+            var options = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            };
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+            app.UseForwardedHeaders(options);
         }
     }
 }
