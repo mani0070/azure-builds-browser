@@ -20,7 +20,7 @@ namespace AzureBuildsBrowser.Controllers
             _contentTypeProvider = contentTypeProvider;
         }
 
-        [Route("/")]
+        [Route("/azdevops")]
         public async Task<IActionResult> Root()
         {
             var tagsTask = _client.GetBuildTags();
