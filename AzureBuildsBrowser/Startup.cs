@@ -37,6 +37,7 @@ namespace AzureBuildsBrowser
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+
             services.AddRazorPages().AddMicrosoftIdentityUI();
             services.Configure<DevopClientOptions>(Configuration.GetSection("DevopsClient"));
             services.AddHttpClient<IDevopsClient, DevopsClient>();
@@ -49,18 +50,14 @@ namespace AzureBuildsBrowser
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseForwardedHeaders();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -71,25 +68,7 @@ namespace AzureBuildsBrowser
                     name: "default",
                     pattern: "{controller}");
             });
-
-            ConfigureForwardedHeaders(app);
-            app.UsePathBase(Configuration.GetValue<string>("PathBase"));
-            app.Use(async (context, next) =>
-            {
-                context.Request.Scheme = "https";
-                await next.Invoke();
-            });
         }
 
-        private static void ConfigureForwardedHeaders(IApplicationBuilder app)
-        {
-            var options = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            };
-            options.KnownNetworks.Clear();
-            options.KnownProxies.Clear();
-            app.UseForwardedHeaders(options);
-        }
     }
 }
