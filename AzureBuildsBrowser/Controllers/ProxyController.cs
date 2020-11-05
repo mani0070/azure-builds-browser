@@ -20,7 +20,7 @@ namespace AzureBuildsBrowser.Controllers
             _contentTypeProvider = contentTypeProvider;
         }
 
-        [Route("/azdevops")]
+        [Route("/")]
         public async Task<IActionResult> Root()
         {
             var tagsTask = _client.GetBuildTags();
@@ -31,14 +31,14 @@ namespace AzureBuildsBrowser.Controllers
             return View(new RootModel {Tags = tags, LastBuilds = lastBuilds});
         }
 
-        [Route("azdevops/t/{tag}")]
+        [Route("/t/{tag}")]
         public async Task<IActionResult> Builds(string tag)
         {
             var builds = await _client.FindBuilds(tag);
             return View(new BuildsModel { Builds = builds, Tag = tag });
         }
 
-        [Route("azdevops/b/{buildId}")]
+        [Route("/b/{buildId}")]
         public async Task<IActionResult> PinnedArtifacts(int buildId)
         {
             var artifacts = await _client.FindArtifacts(buildId);
@@ -50,7 +50,7 @@ namespace AzureBuildsBrowser.Controllers
             });
         }
 
-        [Route("azdevops/t/{tag}/r/{repository}")]
+        [Route("/t/{tag}/r/{repository}")]
         public async Task<IActionResult> Artifacts(string tag, string repository)
         {
             var build = await GetLastBuild(tag, repository);
@@ -67,7 +67,7 @@ namespace AzureBuildsBrowser.Controllers
             });
         }
 
-        [Route("azdevops/t/{tag}/r/{repository}/a/{artifactName}")]
+        [Route("/t/{tag}/r/{repository}/a/{artifactName}")]
         public async Task<IActionResult> Artifact(string tag, string repository, string artifactName)
         {
             var build = await GetLastBuild(tag, repository);
@@ -86,7 +86,7 @@ namespace AzureBuildsBrowser.Controllers
             });
         }
 
-        [Route("azdevops/b/{buildId}/a/{artifactName}")]
+        [Route("/b/{buildId}/a/{artifactName}")]
         public async Task<IActionResult> PinnedArtifact(int buildId, string artifactName)
         {
             var artifact = await _client.GetArtifact(buildId, artifactName);
@@ -100,7 +100,7 @@ namespace AzureBuildsBrowser.Controllers
             });
         }
 
-        [Route("azdevops/t/{tag}/r/{repository}/a/{artifactName}/f/{fileName}")]
+        [Route("/t/{tag}/r/{repository}/a/{artifactName}/f/{fileName}")]
         public async Task<IActionResult> File(string tag, string repository, string artifactName, string fileName)
         {
             var build = await GetLastBuild(tag, repository);
@@ -110,7 +110,7 @@ namespace AzureBuildsBrowser.Controllers
             return await ReturnZipFile(build.Id, artifactName, fileName);
         }
 
-        [Route("azdevops/b/{buildId}/a/{artifactName}/f/{fileName}")]
+        [Route("/b/{buildId}/a/{artifactName}/f/{fileName}")]
         public async Task<IActionResult> PinnedFile(int buildId, string artifactName, string fileName)
         {
             return await ReturnZipFile(buildId, artifactName, fileName);
