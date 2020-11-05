@@ -7,12 +7,12 @@
 <h3>Content of <b>@Model.Artifact</b> for build from <b>@Model.Repository</b> with <b>@Model.Tag</b> tag</h3>
 
 <nav>
-    <a href="/t/@(Model.Tag)/r/@(Model.Repository)">Go up</a>
+    <a href="/azdevops/t/@(Model.Tag)/r/@(Model.Repository)">Go up</a>
 </nav>
 
 @foreach (var file in Model.Zip.Entries)
 {
     <div>
-        <a href="/t/@Model.Tag/r/@Model.Repository/a/@Model.Artifact/f/@Uri.EscapeDataString(file.FullName)">@file.FullName</a>
+        <a href="/azdevops/t/@Model.Tag/r/@Model.Repository/a/@Model.Artifact/f/@Uri.EscapeDataString(file.FullName)">@file.FullName</a>
     </div>
 }

@@ -7,14 +7,14 @@
 <h3>Artifacts for build from <b>@Model.Repository</b> with <b>@Model.Tag</b> tag</h3>
 
 <nav>
-    <a href="/t/@(Model.Tag)">Go up</a>
+    <a href="/azdevops/t/@(Model.Tag)">Go up</a>
 </nav>
 
 <table>
     @foreach (var a in Model.Artifacts)
     {
         <tr>
-            <td><a href="/t/@(Model.Tag)/r/@(Model.Repository)/a/@(a.Name)">@a.Name</a></td>
+            <td><a href="/azdevops/t/@(Model.Tag)/r/@(Model.Repository)/a/@(a.Name)">@a.Name</a></td>
             <td><a href="@a.Resource.DownloadUrl">Download</a></td>
         </tr>
     }

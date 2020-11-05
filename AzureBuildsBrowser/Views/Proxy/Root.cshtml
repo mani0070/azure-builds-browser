@@ -8,7 +8,7 @@
     @foreach (var m in Model.Tags)
     {
         <div>
-            <a href="/t/@m">@m</a>
+            <a href="/azdevops/t/@m">@m</a>
         </div>
     }
 </div>
@@ -33,7 +33,7 @@
             <td>@b.StartTime.ToString("g")</td>
             <td>@b.FinishTime.Subtract(b.StartTime).ToString("mm\\:ss")</td>
             <td>@b.Result</td>
-            <td><a href="/b/@b.Id" target="_blank">Pinned #@b.Id</a></td>
+            <td><a href="/azdevops/b/@b.Id" target="_blank">Pinned #@b.Id</a></td>
             <td><a href="@b.Links.Web.Href" target="_blank">Azure Devops</a></td>
         </tr>
     }
