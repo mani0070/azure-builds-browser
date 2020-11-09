@@ -14,6 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: GitVersion
+      id: gitversion
+      uses: nmcc/actions/gitversion@v1
+      with:
+        path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+    - name: Display git version
+      run: echo  ${{ steps.gitversion.outputs.SemVer }}
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Get the version
