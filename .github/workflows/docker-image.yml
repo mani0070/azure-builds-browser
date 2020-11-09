@@ -14,14 +14,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-gitversion@v1.0.0
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.5
       with:
-        gitversion-version: 5.1.1
-    - name: Get gitversion
-      id: gitversion
-      run: GitVersion
-    - name: Display git version
-      run: echo  ${{ steps.gitversion.outputs.SemVer }}
+        versionSpec: '5.5.x'
+    - name: Use GitVersion
+      id: gitversion # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v0.9.5
+    - run: |
+        echo "Major: ${{ steps.gitversion.outputs.major }}"
+        echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+        echo "Patch: ${{ steps.gitversion.outputs.patch }}"
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Get the version
