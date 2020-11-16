@@ -14,6 +14,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Fetch unshallow
+      run: git fetch --prune --tags --unshallow
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.5
+      with:
+        versionSpec: '5.5.x'
+    - name: Use GitVersion
+      id: gitversion # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v0.9.5
+    - run: |
+        echo "Major: ${{ steps.gitversion.outputs.major }}"
+        echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+        echo "Patch: ${{ steps.gitversion.outputs.patch }}"
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Get the version
