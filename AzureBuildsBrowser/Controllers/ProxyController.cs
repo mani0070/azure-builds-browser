@@ -19,7 +19,7 @@ namespace AzureBuildsBrowser.Controllers
             _client = client;
             _contentTypeProvider = contentTypeProvider;
         }
-
+//
         [Route("azdevops")]
         public async Task<IActionResult> Root()
         {
