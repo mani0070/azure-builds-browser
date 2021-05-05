@@ -13,6 +13,6 @@
 @foreach (var file in Model.Zip.Entries)
 {
     <div>
-        <a href="/azdevops/t/@Model.Tag/r/@Model.Repository/a/@Model.Artifact/f/@Uri.EscapeDataString(file.FullName)">@file.FullName</a>
+        <a href="/azdevops/t/@Model.Tag/r/@Model.Repository/a/@Model.Artifact/f/@file.FullName">@file.FullName</a>
     </div>
 }
